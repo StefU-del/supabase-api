@@ -1,7 +1,8 @@
 
 import "dotenv/config";
 import express from "express";
-import { signUp, getUserById, deleteAccount, signIn } from "./services.js";
+import { signUp, getUserById, deleteAccount, signIn } from "./auth.js";
+import { createDriversTable, populateDriversTable, populateSeasonsTable, populateTeamsTable } from "./data.js";
 
 const server = express();
 server.use(express.json());
@@ -63,8 +64,6 @@ server.get("/admin/users", async (req, res) => {
 server.delete("/deleteAccount", async (req, res) => {
   const userId = req.query.id; // no need for `await`
 
-  console.log("QUERY :: ", userId);
-
   const { data, error } = await deleteAccount(userId);
 
   if (error) {
@@ -77,7 +76,29 @@ server.delete("/deleteAccount", async (req, res) => {
   });
 });
 
+server.post("/database/drivers", async (req, res) => {
+      const data = await populateDriversTable();
+      return res.json({
+      data,
+    });
+});
+
+server.post("/database/teams", async (req, res) => {
+      const data = await populateTeamsTable();
+      return res.json({
+      data,
+    });
+});
+
+server.post("/database/seasons", async (req, res) => {
+      const data = await populateSeasonsTable();
+      return res.json({
+      data,
+    });
+});
+
 const port = 3000;
 server.listen(port, () => {
     console.log("Server Running on port " + port);
 });
+
