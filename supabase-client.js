@@ -17,3 +17,16 @@ export const supabaseAdmin = createClient(
     supabaseAdminKey,
     { auth: { persistSession: false } }
 );
+
+export function supabaseForUser(token) {
+    return createClient(
+        supabaseUrl,
+        supabaseKey,
+        {
+            global: {
+                headers: { Authorisation: `Bearer ${token}` },
+                auth: { persistSession: false }
+            }
+        }
+    )
+}

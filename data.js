@@ -1,26 +1,7 @@
 import { supabase, supabaseAdmin } from "./supabase-client.js"
 
-export async function createDriversTable() {
-
-    console.log("Populate")
-
-    const createDriversTable = `
-        drop table if exists public.drivers cascade;
-        create table public.drivers (
-        driver_id text primary key,
-        name      text not null,
-        surname   text not null,
-        birthday  date not null,
-        url       text
-        );
-    `
-
-    const response = await supabaseAdmin.rpc("exec_sql", { sql: createDriversTable });
-    console.log("Res from create table :: ", response)
-}
-
-export async function populateDriversTable(title, description){
-    const url = "https://f1api.dev/api/drivers?limit=1000000000000";
+export async function populateDriversTable(){
+    const url = "https://f1api.dev/api/drivers?limit=1000000000000000";
 
     try {
         const response = await fetch(url);
@@ -53,7 +34,7 @@ export async function populateDriversTable(title, description){
     }
 }
 
-export async function populateTeamsTable(title, description){
+export async function populateTeamsTable(){
     const url = "https://f1api.dev/api/teams?limit=1000000000";
 
     try {
@@ -86,7 +67,7 @@ export async function populateTeamsTable(title, description){
 }
 
 export async function populateSeasonsTable(title, description){
-    const url = "https://f1api.dev/api/seasons?limit=1000000000";
+    const url = "https://f1api.dev/api/seasons?limit=100";
 
     try {
         const response = await fetch(url);

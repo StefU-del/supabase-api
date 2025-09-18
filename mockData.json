@@ -1,10 +1,4 @@
-{
-    "api": "https://f1api.dev",
-    "url": "https://f1api.dev/api/drivers",
-    "limit": 30,
-    "offset": 0,
-    "total": 30,
-    "drivers": [
+
         {
             "driverId": "Cannoc",
             "name": "John",
@@ -305,5 +299,3 @@
             "shortName": null,
             "url": "http://en.wikipedia.org/wiki/Keith_Andrews_(driver)"
         }
-    ]
-}

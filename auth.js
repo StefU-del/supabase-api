@@ -56,6 +56,12 @@ export async function getUserById(userId) {
   return { data, error };
 }
 
+export async function getUsers() {
+
+  const { data, error } = await supabaseAdmin.auth.admin.listUsers();
+  return { data, error };
+}
+
 export async function deleteAccount(userId) {
   if (!userId) {
     return { data: null, error: { message: "Missing userId" } };
@@ -64,4 +70,17 @@ export async function deleteAccount(userId) {
   const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
   if (error) return { data: null, error };
   return { data, error: null };
+}
+
+export async function checkJWT(req, res, next) {
+    console.log("Headers :: ", req.headers)
+
+  if (!req.headers.authorization) return res.status(401).json({ error: "Unauthorised" });
+
+  const token = req.headers.authorization.replace(/^Bearer\s+/i, "");
+  console.log("JWT :: ", token)
+  const { data, error } = await supabase.auth.getUser(token);
+  if (error || !data?.user) return res.status(401).json({ error: "Invalid token" });
+  req.user=data.user;
+  next();
 }
